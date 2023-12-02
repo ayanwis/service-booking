@@ -8,8 +8,15 @@ const serviceRouter = require("./routes/serviceRoute");
 const bookingRouter = require("./routes/bookingRoute");
 
 const app = express();
-
-app.use(cors());
+const corsOptions = {
+  origin: [
+    // URL er last e kokhon o '/' debe na
+    "http://localhost:5173",
+  ],
+  credentials: true, // Allow credentials (cookies)
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+};
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
