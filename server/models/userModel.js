@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const bcrypt = require("bcryptjs");
 
 const userSchema = mongoose.Schema({
   name: {
@@ -18,10 +19,10 @@ const userSchema = mongoose.Schema({
     minLength: [8, "Password should be greater than 8 characters"],
     select: false,
   },
-  token: {
-    type: String,
-    default: null,
-  },
 });
+
+userSchema.methods.checkPassword = async (password, dbPassword) => {
+  return await bcrypt.compare(password, dbPassword);
+};
 
 module.exports = mongoose.model("User", userSchema);
