@@ -1,6 +1,37 @@
 const User = require("../models/userModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
+
+const jwtSign = (id) =>
+  jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+    // expiresIn: 100   //100s
+  });
+
+const createSendToken = (user, statusCode, res) => {
+  // Create JWT token
+  const token = jwtSign(user._id);
+  const cookieOptions = {
+    expires: new Date(Date.now() + 31 * 24 * 60 * 60 * 1000),
+    httpOnly: true,
+  };
+  if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
+
+  res.cookie("token", token, cookieOptions);
+
+  // Remove password from output
+  user.password = undefined;
+
+  res.status(statusCode).json({
+    status: "success",
+    data: {
+      user,
+      token,
+    },
+  });
+};
 
 exports.signup = async (req, res, next) => {
   try {
@@ -36,65 +67,29 @@ exports.signup = async (req, res, next) => {
       password: encryptedPassword,
     });
 
-    // CREATE A TOKEN
-    const token = jwt.sign(
-      { id: newUser._id, email: newUser.email },
-      process.env.JWT_SECRET,
-      { expiresIn: "30d" }
-    );
-
-    newUser.token = token;
-    newUser.password = undefined;
-
-    return res.status(201).json({
-      success: true,
-      user: newUser,
-    });
+    createSendToken(newUser, 201, res);
   } catch (error) {
     res.status(500).json({
+      success: false,
       error: error.message,
     });
   }
 };
 
-exports.login = async (req, res, next) => {
-  try {
-    // GET ALL DATA FROM FRONTEND
-    const { email, password } = req.body;
-    // VALIDATION
-    if (!(email && password))
-      return res
-        .status(400)
-        .json({ status: false, message: "Please enter email & password" });
-    // FIND USER IN DB
-    const user = await User.findOne({ email });
-    // IF USER IS NOT THERE
-    // MATCH THE PASSWORD
-    if (!user && (await bcrypt.compare(password, user.password)))
-      return res.status(404).json({
-        success: false,
-        message: "Not user found with the following credential",
-      });
+exports.login = catchAsync(async (req, res, next) => {
+  // GET ALL DATA FROM FRONTEND
+  const { email, password } = req.body;
 
-    // SEND A TOKEN
-    const token = jwt.sign(
-      { id: user._id, email: user.email },
-      process.env.JWT_SECRET,
-      { expiresIn: "30d" }
-    );
-    user.token = token;
-    // user.password = undefined;
+  // 1) Check email and password exists
+  if (!email || !password)
+    return next(new AppError("Please provide email and password", 400));
 
-    // SEND TOKEN IN COOKIE
-    const option = {
-      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-      httpOnly: true,
-    };
-    res.status(200).cookie("token", token, option).json({
-      success: true,
-      user,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
+  // 2) Check user exists and password is correct
+  const user = await User.findOne({ email }).select("+password");
+
+  if (!user || !(await user.checkPassword(password, user.password)))
+    return next(new AppError("Incorrect email or password", 401));
+
+  // 3) If email and password are valid then send token
+  createSendToken(user, 200, res);
+});
