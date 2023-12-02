@@ -17,4 +17,9 @@ const bookingSchema = mongoose.Schema({
   },
 });
 
+bookingSchema.pre(/^find/, function (next) {
+  this.populate("service user");
+  next();
+});
+
 module.exports = mongoose.model("Booking", bookingSchema);
