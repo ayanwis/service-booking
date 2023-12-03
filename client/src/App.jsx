@@ -44,7 +44,7 @@ export default function App() {
               }
             />
             <Route path="/success" element={<Success />} />
-            <Route path="/canel" element={<Cancel />} />
+            <Route path="/cancel" element={<Cancel />} />
           </Route>
         </Routes>
       </AuthProvider>
