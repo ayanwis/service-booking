@@ -43,12 +43,28 @@ exports.bookService = catchAsync(async (req, res, next) => {
 
 // UPDATE PAYMENT STATUS
 const updatePaymentStatus = async (session) => {
-  const bookingId = session.client_reference_id;
-  console.log(bookingId);
-  const filter = { _id: bookingId };
-  const update = { paymentStatus: true };
+  try {
+    const bookingId = session.client_reference_id;
+    console.log("Booking ID:", bookingId);
 
-  await Booking.findOneAndUpdate(filter, update, { new: true });
+    if (bookingId.length !== 24) {
+      console.error("Invalid bookingId length:", bookingId.length);
+      return;
+    }
+
+    const filter = { _id: bookingId };
+    console.log("Filter:", filter);
+
+    const update = { paymentStatus: true };
+
+    const updatedBooking = await Booking.findOneAndUpdate(filter, update, {
+      new: true,
+    });
+
+    console.log("Updated Booking:", updatedBooking);
+  } catch (error) {
+    console.error("Error updating payment status:", error);
+  }
 };
 
 // WEB HOOK FOR UPDATE PAYMENT STAUTS
@@ -64,7 +80,7 @@ exports.webhookCheckout = (req, res, next) => {
     );
   } catch (error) {
     console.log(error);
-    return res.status(400).send(`Webhook error: ${err.message}`);
+    return res.status(400).send(`Webhook error: ${error.message}`);
   }
 
   if (event.type === "checkout.session.completed")
