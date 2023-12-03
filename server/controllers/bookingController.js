@@ -37,17 +37,31 @@ exports.bookService = catchAsync(async (req, res, next) => {
   });
 });
 
+// UPDATE PAYMENT STATUS
+const updatePaymentStatus = async (session) => {
+  console.log(session);
+};
+
 // WEB HOOK FOR UPDATE PAYMENT STAUTS
-// exports.webhookCheckout = (req,res,next)=>{
-//   const signature = req.headers['stipe-signature'];
+exports.webhookCheckout = (req, res, next) => {
+  const signature = req.headers["stipe-signature"];
 
-//   let event;
-//   try {
-//     event = stripe.webhooks.constructEvent(req.body,signature,process.env.STRIPE_WEBHOOK_SECRET)
-//   } catch (error) {
+  let event;
+  try {
+    event = stripe.webhooks.constructEvent(
+      req.body,
+      signature,
+      process.env.STRIPE_WEBHOOK_SECRET
+    );
+  } catch (error) {
+    return res.status(400).send(`Webhook error: ${err.message}`);
+  }
 
-//   }
-// }
+  if (event.type === "checkout.session.completed")
+    updatePaymentStatus(event.data.object);
+
+  res.status(200).json({ received: true });
+};
 
 exports.getAllBookings = catchAsync(async (req, res, next) => {
   const bookings = await Booking.find();
