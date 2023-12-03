@@ -1,3 +1,4 @@
+import { BASE_URL } from "../utils/constant";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 
@@ -10,7 +11,7 @@ function ServiceCard({ service }) {
       );
       // 1. Req to the server for payment & book service
       const response = await axios({
-        url: "http://localhost:4000/api/v1/bookings",
+        url: `${BASE_URL}/bookings`,
         method: "POST",
         data: service,
         withCredentials: true,

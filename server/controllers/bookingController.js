@@ -28,8 +28,8 @@ exports.bookService = catchAsync(async (req, res, next) => {
     payment_method_types: ["card"],
     line_items: [lineItems],
     mode: "payment",
-    success_url: "http://localhost:5173/",
-    cancel_url: "http://localhost:5173/services",
+    success_url: "https://service-booking.netlify.app/success",
+    cancel_url: "https://service-booking.netlify.app/cancel",
   });
 
   res.status(201).json({
