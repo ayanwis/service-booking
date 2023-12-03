@@ -27,5 +27,12 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/services", serviceRouter);
 app.use("/api/v1/bookings", bookingRouter);
 
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Working fine",
+  });
+});
+
 app.use(globalErroHandler);
 module.exports = app;
