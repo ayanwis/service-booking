@@ -7,6 +7,8 @@ const userRouter = require("./routes/userRoute");
 const serviceRouter = require("./routes/serviceRoute");
 const bookingRouter = require("./routes/bookingRoute");
 
+const bookingController = require("./controllers/bookingController");
+
 const app = express();
 const corsOptions = {
   origin: [
@@ -18,7 +20,16 @@ const corsOptions = {
   credentials: true, // Allow credentials (cookies)
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
 };
+
 app.use(cors(corsOptions));
+
+// webhooks route
+app.post(
+  "/webhook-checkout",
+  express.raw({ type: "application/json" }),
+  bookingController.webhookCheckout
+);
+
 app.use(express.json());
 app.use(cookieParser());
 
