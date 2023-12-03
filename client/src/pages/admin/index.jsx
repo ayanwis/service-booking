@@ -43,7 +43,7 @@ function AdminPage() {
       <h1 className="my-5 flex justify-center text-2xl font-semibold underline">
         All Bookings
       </h1>
-      <div className="my-grid bg-gray-500 uppercase text-white">
+      <div className="my-grid sticky top-20 bg-gray-500 uppercase text-white">
         <div className="flex justify-center border-r-2 p-2">#</div>
         <div className="flex justify-center border-r-2 p-2">service name</div>
         <div className="flex justify-center border-r-2 p-2">user name</div>
