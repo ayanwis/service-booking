@@ -54,6 +54,7 @@ exports.webhookCheckout = (req, res, next) => {
       process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (error) {
+    console.log(error);
     return res.status(400).send(`Webhook error: ${err.message}`);
   }
 
