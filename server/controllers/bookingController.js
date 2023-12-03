@@ -44,7 +44,7 @@ const updatePaymentStatus = async (session) => {
 
 // WEB HOOK FOR UPDATE PAYMENT STAUTS
 exports.webhookCheckout = (req, res, next) => {
-  const signature = req.headers["stipe-signature"];
+  const signature = req.headers["stripe-signature"];
 
   let event;
   try {
