@@ -3,18 +3,51 @@ const catchAsync = require("../utils/catchAsync");
 const Service = require("../models/serviceModel");
 const AppError = require("../utils/appError");
 
-exports.bookService = catchAsync(async (req, res, next) => {
-  const service = await Service.findById(req.body.service);
-  if (!service) return next(new AppError("No service found", 404));
-  console.log(service);
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
-  const newBooking = await Booking.create({ user: req.user, service: service });
+exports.bookService = catchAsync(async (req, res, next) => {
+  const serviceId = req.body._id;
+
+  const newBooking = await Booking.create({
+    user: req.user._id,
+    service: serviceId,
+  });
+
+  const lineItems = {
+    price_data: {
+      currency: "INR",
+      product_data: {
+        name: req.body.name,
+      },
+      unit_amount: req.body.price * 100,
+    },
+    quantity: 1,
+  };
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    line_items: [lineItems],
+    mode: "payment",
+    success_url: "http://localhost:5173/",
+    cancel_url: "http://localhost:5173/services",
+  });
+
   res.status(201).json({
-    success: true,
-    message: "Serviced booked succuessfully",
-    data: newBooking,
+    id: session.id,
   });
 });
+
+// WEB HOOK FOR UPDATE PAYMENT STAUTS
+// exports.webhookCheckout = (req,res,next)=>{
+//   const signature = req.headers['stipe-signature'];
+
+//   let event;
+//   try {
+//     event = stripe.webhooks.constructEvent(req.body,signature,process.env.STRIPE_WEBHOOK_SECRET)
+//   } catch (error) {
+
+//   }
+// }
 
 exports.getAllBookings = catchAsync(async (req, res, next) => {
   const bookings = await Booking.find();
