@@ -1,3 +1,4 @@
+import ServiceCard from "../../components/ServiceCard";
 import useServices from "../../hooks/useServices";
 
 function Services() {
@@ -7,7 +8,7 @@ function Services() {
   return (
     <div>
       {services.map((service) => (
-        <h1 key={service._id}>{service.name}</h1>
+        <ServiceCard key={service._id} service={service} />
       ))}
     </div>
   );

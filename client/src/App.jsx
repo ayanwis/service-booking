@@ -8,6 +8,7 @@ import Services from "./pages/services";
 import { AuthProvider } from "./store/authContext";
 import AuthLayout from "./components/AuthLayout";
 import ProtectedLayout from "./components/ProtectedLayout";
+import Home from "./pages/home";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
       <AuthProvider>
         <Routes>
           <Route element={<AppLayout />}>
+            <Route index element={<Home />} />
             <Route
               path="/login"
               element={

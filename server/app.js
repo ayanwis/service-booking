@@ -12,6 +12,8 @@ const corsOptions = {
   origin: [
     // URL er last e kokhon o '/' debe na
     "http://localhost:5173",
+    "https://service-booking-client.onrender.com",
+    "https://service-booking.netlify.app",
   ],
   credentials: true, // Allow credentials (cookies)
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
