@@ -70,7 +70,7 @@ const updatePaymentStatus = async (session) => {
 // WEB HOOK FOR UPDATE PAYMENT STAUTS
 exports.webhookCheckout = (req, res, next) => {
   const signature = req.headers["stripe-signature"];
-
+  console.log("webhook called");
   let event;
   try {
     event = stripe.webhooks.constructEvent(
@@ -79,7 +79,7 @@ exports.webhookCheckout = (req, res, next) => {
       process.env.STRIPE_WEBHOOK_SECRET
     );
   } catch (error) {
-    console.log(error);
+    console.log("webhookerror-->", error.message);
     return res.status(400).send(`Webhook error: ${error.message}`);
   }
 
