@@ -27,6 +27,8 @@ exports.bookService = catchAsync(async (req, res, next) => {
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     line_items: [lineItems],
+    customer_email: req.user.email,
+    client_reference_id: newBooking._id,
     mode: "payment",
     success_url: "https://service-booking.netlify.app/success",
     cancel_url: "https://service-booking.netlify.app/cancel",
@@ -39,7 +41,11 @@ exports.bookService = catchAsync(async (req, res, next) => {
 
 // UPDATE PAYMENT STATUS
 const updatePaymentStatus = async (session) => {
-  console.log(session);
+  const bookingId = session.client_reference_id;
+  const filter = { _id: bookingId };
+  const update = { paymentStatus: true };
+
+  await Booking.findOneAndUpdate(filter, update, { new: true });
 };
 
 // WEB HOOK FOR UPDATE PAYMENT STAUTS
