@@ -13,6 +13,8 @@ exports.bookService = catchAsync(async (req, res, next) => {
     service: serviceId,
   });
 
+  console.log(newBooking.id);
+
   const lineItems = {
     price_data: {
       currency: "INR",
@@ -42,6 +44,7 @@ exports.bookService = catchAsync(async (req, res, next) => {
 // UPDATE PAYMENT STATUS
 const updatePaymentStatus = async (session) => {
   const bookingId = session.client_reference_id;
+  console.log(bookingId);
   const filter = { _id: bookingId };
   const update = { paymentStatus: true };
 
