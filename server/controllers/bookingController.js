@@ -19,7 +19,7 @@ exports.bookService = catchAsync(async (req, res, next) => {
 
   const lineItems = {
     price_data: {
-      currency: "INR",
+      currency: "USD",
       product_data: {
         name: req.body.name,
       },

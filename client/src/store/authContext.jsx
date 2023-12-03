@@ -23,6 +23,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (userData) => {
     try {
+      setIsloading(true);
       // Perform login logic and set the user
       const response = await axios({
         method: "POST",
@@ -31,30 +32,39 @@ export const AuthProvider = ({ children }) => {
         withCredentials: true,
       });
       // console.log(response.data?.user);
-      setUser(response.data);
+      setUser(response.data.user);
+      setIsloading(false);
       // // Store user data in localStorage
       localStorage.setItem("user", JSON.stringify(response.data.user));
-      navigate("/services");
+      if (response.data.user.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/services");
+      }
     } catch (error) {
+      setIsloading(false);
       setError(error.message);
     }
   };
   const signup = async (userData) => {
     try {
-      // Perform login logic and set the user
+      setIsloading(true);
+      // Perform signup logic and set the user
       const response = await axios({
         method: "POST",
         url: `${BASE_URL}/users/signup`,
         data: userData,
         withCredentials: true,
       });
-      // console.log(response.data?.user);
-      setUser(response.data);
+
+      setUser(response.data.user);
+      setIsloading(false);
       // // Store user data in localStorage
       localStorage.setItem("user", JSON.stringify(response.data.user));
       navigate("/services");
     } catch (error) {
       setError(error.message);
+      setIsloading(false);
     }
   };
 

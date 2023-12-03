@@ -1,9 +1,11 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { useAuth } from "../../store/authContext";
+import { Link } from "react-router-dom";
+import Spinner from "../../ui/Spinner";
 
 const LoginSchema = Yup.object().shape({
-  email: Yup.string().email("Invalid email").required("Email is required"),
+  email: Yup.string().email("Invalid email!").required("Email is required!"),
   password: Yup.string().required("Please enter you password"),
 });
 
@@ -15,8 +17,8 @@ export default function Login() {
   };
 
   return (
-    <div className="mx-auto w-1/4">
-      <h1>Login</h1>
+    <div className="mx-auto mt-20 w-1/3">
+      <h1 className="mb-10 flex justify-center text-3xl font-bold">Login</h1>
       <Formik
         initialValues={{
           email: "",
@@ -32,22 +34,32 @@ export default function Login() {
             placeholder="Email"
             className="border-2 border-gray-200 px-4 py-3 outline-none"
           />
-          <ErrorMessage name="email" component="div" />
+          <ErrorMessage name="email" component="div" className="text-red-500" />
           <Field
             type="password"
             name="password"
             placeholder="Password"
             className="border-2 border-gray-200 px-4 py-3 outline-none"
           />
-          <ErrorMessage name="password" component="div" />
+          <ErrorMessage
+            name="password"
+            component="div"
+            className="text-red-500"
+          />
           <button
             type="submit"
             className="bg-blue-500 px-4 py-3 text-xl text-white hover:shadow-lg"
           >
-            Login
+            {isLoading ? <Spinner /> : "Login"}
           </button>
         </Form>
       </Formik>
+      <p className="mt-5 text-lg">
+        Don't have account?
+        <Link to="/signup" className="ml-4 hover:underline">
+          Signup
+        </Link>
+      </p>
     </div>
   );
 }

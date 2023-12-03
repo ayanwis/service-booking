@@ -1,6 +1,8 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { useAuth } from "../../store/authContext";
+import { Link } from "react-router-dom";
+import Spinner from "../../ui/Spinner";
 
 const LoginSchema = Yup.object().shape({
   name: Yup.string()
@@ -19,9 +21,11 @@ export default function Signup() {
     signup(values);
   };
 
+  console.log(isLoading);
+
   return (
-    <div className="mx-auto w-1/4">
-      <h1>Login</h1>
+    <div className="mx-auto mt-20 w-1/3">
+      <h1 className="mb-10 flex justify-center text-3xl font-bold">Signup</h1>
       <Formik
         initialValues={{
           name: "",
@@ -38,29 +42,41 @@ export default function Signup() {
             placeholder="name"
             className="border-2 border-gray-200 px-4 py-3 outline-none"
           />
-          <ErrorMessage name="name" component="div" />
+          <ErrorMessage name="name" component="div" className="text-red-500" />
           <Field
             type="email"
             name="email"
             placeholder="Email"
             className="border-2 border-gray-200 px-4 py-3 outline-none"
           />
-          <ErrorMessage name="email" component="div" />
+          <ErrorMessage name="email" component="div" className="text-red-500" />
           <Field
             type="password"
             name="password"
             placeholder="Password"
             className="border-2 border-gray-200 px-4 py-3 outline-none"
           />
-          <ErrorMessage name="password" component="div" />
+          <ErrorMessage
+            name="password"
+            component="div"
+            className="text-red-500"
+          />
           <button
             type="submit"
+            disabled={isLoading}
             className="bg-blue-500 px-4 py-3 text-xl text-white hover:shadow-lg"
           >
-            Login
+            {isLoading ? <Spinner /> : "Signup"}
           </button>
         </Form>
       </Formik>
+
+      <p className="mt-5 text-lg">
+        Already have account?
+        <Link to="/login" className="ml-4 hover:underline">
+          login
+        </Link>
+      </p>
     </div>
   );
 }
