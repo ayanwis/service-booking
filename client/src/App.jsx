@@ -13,6 +13,7 @@ import AuthLayout from "./components/AuthLayout";
 import ProtectedLayout from "./components/ProtectedLayout";
 import AdminPage from "./pages/admin";
 import AdminLayout from "./components/AdminLayout";
+import Bookings from "./pages/bookings";
 
 export default function App() {
   return (
@@ -56,6 +57,7 @@ export default function App() {
                 </AdminLayout>
               }
             />
+            <Route path="/my-bookings" element={<Bookings />} />
           </Route>
         </Routes>
       </AuthProvider>
