@@ -3,6 +3,8 @@ const catchAsync = require("../utils/catchAsync");
 const Service = require("../models/serviceModel");
 const AppError = require("../utils/appError");
 
+require("dotenv").config();
+
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 exports.bookService = catchAsync(async (req, res, next) => {
@@ -70,7 +72,6 @@ const updatePaymentStatus = async (session) => {
 // WEB HOOK FOR UPDATE PAYMENT STAUTS
 exports.webhookCheckout = (req, res, next) => {
   const signature = req.headers["stripe-signature"];
-  console.log("webhook called");
   let event;
   try {
     event = stripe.webhooks.constructEvent(
