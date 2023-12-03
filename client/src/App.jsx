@@ -11,6 +11,8 @@ import Cancel from "./pages/cancel";
 import { AuthProvider } from "./store/authContext";
 import AuthLayout from "./components/AuthLayout";
 import ProtectedLayout from "./components/ProtectedLayout";
+import AdminPage from "./pages/admin";
+import AdminLayout from "./components/AdminLayout";
 
 export default function App() {
   return (
@@ -45,6 +47,15 @@ export default function App() {
             />
             <Route path="/success" element={<Success />} />
             <Route path="/cancel" element={<Cancel />} />
+
+            <Route
+              path="/admin"
+              element={
+                <AdminLayout>
+                  <AdminPage />
+                </AdminLayout>
+              }
+            />
           </Route>
         </Routes>
       </AuthProvider>

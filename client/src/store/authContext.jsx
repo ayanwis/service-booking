@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) => {
       // console.log(response.data?.user);
       setUser(response.data);
       // // Store user data in localStorage
-      localStorage.setItem("user", JSON.stringify(response.data));
+      localStorage.setItem("user", JSON.stringify(response.data.user));
       navigate("/services");
     } catch (error) {
       setError(error.message);
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
       // console.log(response.data?.user);
       setUser(response.data);
       // // Store user data in localStorage
-      localStorage.setItem("user", JSON.stringify(response.data));
+      localStorage.setItem("user", JSON.stringify(response.data.user));
       navigate("/services");
     } catch (error) {
       setError(error.message);
