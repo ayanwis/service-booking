@@ -7,7 +7,7 @@ export default function AppLayout() {
   const { isLoading, user, error } = useAuth();
   return (
     <div>
-      <header className="flex justify-between bg-gray-200 px-96 py-4">
+      <header className="sticky top-0 flex w-full justify-between bg-gray-200 px-96 py-4">
         <Link to="/" className="text-3xl font-bold text-blue-500">
           Easy Booking
         </Link>
@@ -32,10 +32,10 @@ export default function AppLayout() {
           )}
         </nav>
       </header>
-      <main className="mx-96 h-[86vh]">
+      <main className="mx-96 min-h-[90vh]">
         <Outlet />
       </main>
-      <footer className="flex items-center justify-center bg-black py-4 text-2xl text-white">
+      <footer className=" flex w-full items-center justify-center bg-black py-4 text-2xl text-white">
         ©Copyright. ayanghosh.dev@gmail.com
       </footer>
     </div>

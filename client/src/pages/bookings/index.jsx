@@ -39,7 +39,7 @@ export default function Bookings() {
       <h1 className="my-5 flex justify-center text-2xl font-semibold underline">
         My Bookings
       </h1>
-      <div className="my-grid1 bg-gray-500 uppercase text-white">
+      <div className="my-grid1 sticky top-20 bg-gray-500 uppercase text-white">
         <div className="flex justify-center border-r-2 p-2">#</div>
         <div className="flex justify-center border-r-2 p-2">Service name</div>
         <div className="flex justify-center p-2">payment Status </div>
