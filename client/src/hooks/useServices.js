@@ -1,3 +1,4 @@
+import { BASE_URL } from "../utils/constant";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -14,7 +15,7 @@ function useServices() {
     try {
       const res = await axios({
         method: "GET",
-        url: "http://localhost:4000/api/v1/services",
+        url: `${BASE_URL}/services`,
         withCredentials: true,
       });
       setServices(res.data.data);

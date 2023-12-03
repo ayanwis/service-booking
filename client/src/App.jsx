@@ -4,11 +4,13 @@ import AppLayout from "./ui/AppLayout";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
 import Services from "./pages/services";
+import Home from "./pages/home";
+import Success from "./pages/success";
+import Cancel from "./pages/cancel";
 
 import { AuthProvider } from "./store/authContext";
 import AuthLayout from "./components/AuthLayout";
 import ProtectedLayout from "./components/ProtectedLayout";
-import Home from "./pages/home";
 
 export default function App() {
   return (
@@ -41,6 +43,8 @@ export default function App() {
                 </ProtectedLayout>
               }
             />
+            <Route path="/success" element={<Success />} />
+            <Route path="/canel" element={<Cancel />} />
           </Route>
         </Routes>
       </AuthProvider>

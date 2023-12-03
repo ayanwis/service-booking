@@ -1,3 +1,4 @@
+import { BASE_URL } from "../utils/constant";
 import axios from "axios";
 import { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -25,7 +26,7 @@ export const AuthProvider = ({ children }) => {
       // Perform login logic and set the user
       const response = await axios({
         method: "POST",
-        url: "http://localhost:4000/api/v1/users/login",
+        url: `${BASE_URL}/users/login`,
         data: userData,
         withCredentials: true,
       });
@@ -43,7 +44,7 @@ export const AuthProvider = ({ children }) => {
       // Perform login logic and set the user
       const response = await axios({
         method: "POST",
-        url: "http://localhost:4000/api/v1/users/signup",
+        url: `${BASE_URL}/users/signup`,
         data: userData,
         withCredentials: true,
       });
