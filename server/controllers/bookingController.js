@@ -30,7 +30,7 @@ exports.bookService = catchAsync(async (req, res, next) => {
     payment_method_types: ["card"],
     line_items: [lineItems],
     customer_email: req.user.email,
-    client_reference_id: newBooking._id,
+    client_reference_id: newBooking.id,
     mode: "payment",
     success_url: "https://service-booking.netlify.app/success",
     cancel_url: "https://service-booking.netlify.app/cancel",
