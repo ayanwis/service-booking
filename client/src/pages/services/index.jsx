@@ -8,13 +8,13 @@ function Services() {
   if (isLoading)
     return (
       <div>
-        <h1 className="py-5 text-2xl">Our Services</h1>
+        <h1 className="py-5 text-center text-xl font-bold">Our Services</h1>
         <Spinner /> Loading..
       </div>
     );
   return (
     <section>
-      <h1 className="py-5 text-2xl">Our Services</h1>
+      <h1 className="py-5 text-center text-xl font-bold">Our Services</h1>
       <div className="flex flex-wrap gap-4">
         {services.map((service) => (
           <ServiceCard key={service._id} service={service} />

@@ -17,7 +17,7 @@ export default function Login() {
   };
 
   return (
-    <div className="mx-auto mt-20 w-1/3">
+    <div className="mx-auto mt-20 w-[20rem]">
       <h1 className="mb-10 flex justify-center text-3xl font-bold">Login</h1>
       <Formik
         initialValues={{
@@ -32,14 +32,14 @@ export default function Login() {
             type="email"
             name="email"
             placeholder="Email"
-            className="border-2 border-gray-200 px-4 py-3 outline-none"
+            className="rounded-md border-2 border-gray-200 px-4 py-3 outline-none"
           />
           <ErrorMessage name="email" component="div" className="text-red-500" />
           <Field
             type="password"
             name="password"
             placeholder="Password"
-            className="border-2 border-gray-200 px-4 py-3 outline-none"
+            className="rounded-md border-2 border-gray-200 px-4 py-3 outline-none"
           />
           <ErrorMessage
             name="password"
@@ -48,7 +48,7 @@ export default function Login() {
           />
           <button
             type="submit"
-            className="bg-blue-500 px-4 py-3 text-xl text-white hover:shadow-lg"
+            className="rounded-md bg-blue-500 px-4 py-3 text-xl text-white hover:shadow-lg"
           >
             {isLoading ? <Spinner /> : "Login"}
           </button>
@@ -56,7 +56,7 @@ export default function Login() {
       </Formik>
       <p className="mt-5 text-lg">
         Don't have account?
-        <Link to="/signup" className="ml-4 hover:underline">
+        <Link to="/signup" className="ml-4 text-blue-500 hover:underline">
           Signup
         </Link>
       </p>

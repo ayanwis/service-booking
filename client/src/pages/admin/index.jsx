@@ -40,19 +40,21 @@ function AdminPage() {
 
   return (
     <section>
-      <h1 className="my-5 flex justify-center text-2xl font-semibold underline">
+      <h1 className="my-5 flex justify-center text-xl font-semibold underline">
         All Bookings
       </h1>
-      <div className="my-grid sticky top-20 bg-gray-500 uppercase text-white">
-        <div className="flex justify-center border-r-2 p-2">#</div>
-        <div className="flex justify-center border-r-2 p-2">service name</div>
-        <div className="flex justify-center border-r-2 p-2">user name</div>
-        <div className="flex justify-center border-r-2 p-2">user email</div>
-        <div className="flex justify-center p-2">payment Status </div>
+      <div className="overflow-x-scroll">
+        <div className="my-grid  bg-gray-500 uppercase text-white">
+          <div className="flex justify-center border-r-2 p-2">#</div>
+          <div className="flex justify-center border-r-2 p-2">service name</div>
+          <div className="flex justify-center border-r-2 p-2">user name</div>
+          <div className="flex justify-center border-r-2 p-2">user email</div>
+          <div className="flex justify-center p-2">payment Status </div>
+        </div>
+        {bookings.map((booking, index) => (
+          <BookingCard key={booking._id} booking={booking} index={index} />
+        ))}
       </div>
-      {bookings.map((booking, index) => (
-        <BookingCard key={booking._id} booking={booking} index={index} />
-      ))}
     </section>
   );
 }
