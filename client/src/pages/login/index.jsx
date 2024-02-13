@@ -37,6 +37,12 @@ export default function Login() {
     }
   };
 
+  const adminLogin = () =>
+    login({ email: "admin@gmail.com", password: "adminadmin" });
+
+  const userLogin = () =>
+    login({ email: "user@gmail.com", password: "useruser" });
+
   return (
     <div className="mx-auto mt-20 w-[20rem]">
       <h1 className="mb-10 flex justify-center text-3xl font-bold">Login</h1>
@@ -72,9 +78,9 @@ export default function Login() {
             className="rounded-md bg-blue-500 px-4 py-3 text-xl text-white hover:shadow-lg"
           >
             {loading ? (
-              <>
+              <div className="flex items-center justify-center">
                 <Spinner /> Logging
-              </>
+              </div>
             ) : (
               "Login"
             )}
@@ -86,6 +92,12 @@ export default function Login() {
         <Link to="/signup" className="ml-4 text-blue-500 hover:underline">
           Signup
         </Link>
+      </p>
+      <p className="cursor-pointer hover:underline" onClick={userLogin}>
+        Login as user
+      </p>
+      <p className="cursor-pointer hover:underline" onClick={adminLogin}>
+        Login as admin
       </p>
     </div>
   );

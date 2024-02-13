@@ -1,6 +1,6 @@
-import { BASE_URL } from "../utils/constant";
 import { loadStripe } from "@stripe/stripe-js";
-import axios from "axios";
+
+import { postService } from "./service";
 
 const makePayment = async (service) => {
   try {
@@ -8,12 +8,7 @@ const makePayment = async (service) => {
       "pk_test_51OJ8BiSHFnsnHRC0CIo29WvZlviSqrDQA1YARqCCPM4Ytt1DDoRqaYTNgyisVtdtMWQHL1xspWIEP4k3vbs9Upit00R4DCyvBa",
     );
     // 1. Req to the server for payment & book service
-    const response = await axios({
-      url: `${BASE_URL}/bookings`,
-      method: "POST",
-      data: service,
-      withCredentials: true,
-    });
+    const response = await postService("/bookings", service, true);
     console.log(response);
 
     // 2. In response we will get a session id
