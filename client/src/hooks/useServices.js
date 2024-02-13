@@ -1,6 +1,7 @@
 import { BASE_URL } from "../utils/constant";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { getService } from "../services/service";
 
 function useServices() {
   const [isLoading, setIsloading] = useState(true);
@@ -13,12 +14,8 @@ function useServices() {
 
   const getAllServices = async () => {
     try {
-      const res = await axios({
-        method: "GET",
-        url: `${BASE_URL}/services`,
-        withCredentials: true,
-      });
-      setServices(res.data.data);
+      const { data: res } = await getService("/services", true);
+      setServices(res.data);
       setIsloading(false);
     } catch (error) {
       setIsloading(false);

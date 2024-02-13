@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Header from "./Header";
+import { Toaster } from "react-hot-toast";
 
 export default function AppLayout() {
   return (
@@ -11,6 +12,7 @@ export default function AppLayout() {
       <footer className="flex w-full items-center justify-center bg-black p-4 text-sm text-white">
         ©Copyright. ayanghosh.dev@gmail.com
       </footer>
+      <Toaster />
     </div>
   );
 }

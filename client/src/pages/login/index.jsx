@@ -1,8 +1,12 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { useAuth } from "../../store/authContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Spinner from "../../ui/Spinner";
+import { useState } from "react";
+import { postService } from "../../services/service";
+import toast from "react-hot-toast";
+import { setItem } from "../../services/session";
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email("Invalid email!").required("Email is required!"),
@@ -10,10 +14,27 @@ const LoginSchema = Yup.object().shape({
 });
 
 export default function Login() {
-  const { login, isLoading, error } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const { setIsLoggedIn } = useAuth();
+  const navigate = useNavigate();
 
-  const submitHandler = (values) => {
-    login(values);
+  const login = async (formData) => {
+    console.log("login called");
+    try {
+      setLoading(true);
+      const { data: res } = await postService("/users/login", formData, false);
+      setIsLoggedIn(true);
+      setItem("access_token", res.token);
+      setLoading(false);
+      if (res.user.role === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/services");
+      }
+    } catch (error) {
+      toast.error(error.message);
+      setLoading(false);
+    }
   };
 
   return (
@@ -25,7 +46,7 @@ export default function Login() {
           password: "",
         }}
         validationSchema={LoginSchema}
-        onSubmit={submitHandler}
+        onSubmit={login}
       >
         <Form className="flex flex-col gap-4">
           <Field
@@ -50,7 +71,13 @@ export default function Login() {
             type="submit"
             className="rounded-md bg-blue-500 px-4 py-3 text-xl text-white hover:shadow-lg"
           >
-            {isLoading ? <Spinner /> : "Login"}
+            {loading ? (
+              <>
+                <Spinner /> Logging
+              </>
+            ) : (
+              "Login"
+            )}
           </button>
         </Form>
       </Formik>

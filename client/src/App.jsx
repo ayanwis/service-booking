@@ -57,7 +57,14 @@ export default function App() {
                 </AdminLayout>
               }
             />
-            <Route path="/my-bookings" element={<Bookings />} />
+            <Route
+              path="/my-bookings"
+              element={
+                <ProtectedLayout>
+                  <Bookings />
+                </ProtectedLayout>
+              }
+            />
           </Route>
         </Routes>
       </AuthProvider>

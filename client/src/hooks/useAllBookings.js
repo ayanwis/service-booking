@@ -1,6 +1,5 @@
-import { BASE_URL } from "../utils/constant";
-import axios from "axios";
 import { useEffect, useState } from "react";
+import { getService } from "../services/service";
 
 function useAllBookings() {
   const [isLoading, setIsloading] = useState(true);
@@ -13,12 +12,8 @@ function useAllBookings() {
 
   const getAllBookings = async () => {
     try {
-      const res = await axios({
-        method: "GET",
-        url: `${BASE_URL}/bookings/admin`,
-        withCredentials: true,
-      });
-      setBookings(res.data.bookings);
+      const { data: res } = await getService("/bookings/admin", true);
+      setBookings(res.bookings);
       setIsloading(false);
     } catch (error) {
       setIsloading(false);

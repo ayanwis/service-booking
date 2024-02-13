@@ -3,6 +3,8 @@ import * as Yup from "yup";
 import { useAuth } from "../../store/authContext";
 import { Link } from "react-router-dom";
 import Spinner from "../../ui/Spinner";
+import { useState } from "react";
+import { postService } from "../../services/service";
 
 const LoginSchema = Yup.object().shape({
   name: Yup.string()
@@ -15,13 +17,24 @@ const LoginSchema = Yup.object().shape({
 });
 
 export default function Signup() {
-  const { signup, isLoading, error } = useAuth();
+  const [loading, setLoading] = useState(false);
+  const { setUser, isLoading, error } = useAuth();
 
-  const submitHandler = (values) => {
-    signup(values);
+  const signup = async (formData) => {
+    try {
+      setLoading(true);
+      // Perform signup logic and set the user
+      const response = await postService("/users/signup", formData, false);
+
+      setUser(response.data.user);
+      setLoading(false);
+      // // Store user data in localStorage
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+      navigate("/services");
+    } catch (error) {
+      setLoading(false);
+    }
   };
-
-  console.log(isLoading);
 
   return (
     <div className="mx-auto mt-20 w-[20rem]">
@@ -33,7 +46,7 @@ export default function Signup() {
           password: "",
         }}
         validationSchema={LoginSchema}
-        onSubmit={submitHandler}
+        onSubmit={signup}
       >
         <Form className="flex flex-col gap-4">
           <Field

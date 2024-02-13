@@ -3,7 +3,7 @@ import { useAuth } from "../store/authContext";
 import Spinner from "./Spinner";
 
 function Header() {
-  const { isLoading, user, error } = useAuth();
+  const { isLoading, isLoggedIn, error, logout } = useAuth();
   return (
     <header className="sticky top-0 flex w-full items-center justify-between  bg-gray-200 px-3 py-4">
       <Link to="/" className="text-xl font-bold text-blue-500">
@@ -14,7 +14,7 @@ function Header() {
           Services
         </Link>
         {isLoading && <Spinner />}
-        {!isLoading && !user && (
+        {!isLoading && !isLoggedIn && (
           <Link
             to="/login"
             className="rounded-md bg-black p-3  text-xs text-white"
@@ -22,13 +22,21 @@ function Header() {
             Login
           </Link>
         )}
-        {!isLoading && user && (
+        {!isLoading && isLoggedIn && (
           <Link
             to="/my-bookings"
             className="rounded-md bg-black p-3 text-xs text-white"
           >
             My bookings
           </Link>
+        )}
+        {!isLoading && isLoggedIn && (
+          <button
+            onClick={logout}
+            className="rounded-md bg-black p-3 text-xs text-white"
+          >
+            Logout
+          </button>
         )}
       </nav>
     </header>
