@@ -2,6 +2,4 @@
 - - /signup
 - - /login
 - - /all-services
-- - /
-
-for testing service
+- - / --for testing service
